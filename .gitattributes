@@ -1,0 +1,4 @@
+# Add Git LFS tracking if needed in the future:
+# git lfs install
+# git lfs track "public/wallpapers/desktop/**"
+# git lfs track "public/wallpapers/mobile/**"
