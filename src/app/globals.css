@@ -63,6 +63,11 @@ body {
   gap: 10px;
 }
 
+.logo-link {
+  display: flex;
+  line-height: 0;
+}
+
 .logo {
   width: 18px;
   height: 18px;
@@ -70,7 +75,7 @@ body {
   transition: color 0.4s var(--ease-smooth);
 }
 
-.logo:hover {
+.logo-link:hover .logo {
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -93,7 +98,7 @@ body {
   position: relative;
   aspect-ratio: 1440 / 1024;
   overflow: hidden;
-  cursor: pointer;
+  cursor: default;
   user-select: none;
   -webkit-user-select: none;
   opacity: 0;
@@ -158,6 +163,7 @@ body {
   letter-spacing: 0.06em;
   color: rgba(255, 255, 255, 0.45);
   text-decoration: none;
+  cursor: pointer;
   transition: color 0.3s var(--ease-smooth);
 }
 
