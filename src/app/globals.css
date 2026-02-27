@@ -105,6 +105,23 @@ body {
   animation: fadeInUp 1s var(--ease-out-expo) forwards;
 }
 
+.new-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 4px 8px;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
 .card-image {
   position: absolute;
   inset: 0;
@@ -230,6 +247,7 @@ body {
 .card:nth-child(12) { animation-delay: 0.60s; }
 .card:nth-child(13) { animation-delay: 0.64s; }
 .card:nth-child(14) { animation-delay: 0.70s; }
+.card:nth-child(15) { animation-delay: 0.76s; }
 
 /* ---- Touch devices ---- */
 

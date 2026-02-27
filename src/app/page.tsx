@@ -1,25 +1,45 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 const wallpapers = [
-  { id: '01', gradient: 'linear-gradient(135deg, #0c1445, #1a237e)' },
-  { id: '02', gradient: 'linear-gradient(135deg, #1a0505, #8b0000)' },
-  { id: '03', gradient: 'linear-gradient(135deg, #051a1a, #005f56)' },
-  { id: '04', gradient: 'linear-gradient(135deg, #1a0520, #7b1fa2)' },
-  { id: '05', gradient: 'linear-gradient(135deg, #1a1200, #bf6900)' },
-  { id: '06', gradient: 'linear-gradient(135deg, #020d1a, #1565c0)' },
-  { id: '07', gradient: 'linear-gradient(135deg, #1a0a05, #c63f17)' },
-  { id: '08', gradient: 'linear-gradient(135deg, #001a1a, #00695c)' },
-  { id: '09', gradient: 'linear-gradient(135deg, #0d001a, #4a148c)' },
-  { id: '10', gradient: 'linear-gradient(135deg, #0a1628, #1565c0)' },
-  { id: '11', gradient: 'linear-gradient(135deg, #1a100a, #bf6900)' },
-  { id: '12', gradient: 'linear-gradient(135deg, #0a1a12, #2e7d32)' },
-  { id: '13', gradient: 'linear-gradient(135deg, #1a0a10, #ad1457)' },
-  { id: '14', gradient: 'linear-gradient(135deg, #0a0d1a, #283593)' },
+  { id: '15', added: '2026-02-27', gradient: 'linear-gradient(135deg, #0a1a14, #1b5e20)' },
+  { id: '01', added: '2026-02-01', gradient: 'linear-gradient(135deg, #0c1445, #1a237e)' },
+  { id: '02', added: '2026-02-01', gradient: 'linear-gradient(135deg, #1a0505, #8b0000)' },
+  { id: '03', added: '2026-02-01', gradient: 'linear-gradient(135deg, #051a1a, #005f56)' },
+  { id: '04', added: '2026-02-01', gradient: 'linear-gradient(135deg, #1a0520, #7b1fa2)' },
+  { id: '05', added: '2026-02-01', gradient: 'linear-gradient(135deg, #1a1200, #bf6900)' },
+  { id: '06', added: '2026-02-01', gradient: 'linear-gradient(135deg, #020d1a, #1565c0)' },
+  { id: '07', added: '2026-02-01', gradient: 'linear-gradient(135deg, #1a0a05, #c63f17)' },
+  { id: '08', added: '2026-02-01', gradient: 'linear-gradient(135deg, #001a1a, #00695c)' },
+  { id: '09', added: '2026-02-01', gradient: 'linear-gradient(135deg, #0d001a, #4a148c)' },
+  { id: '10', added: '2026-02-01', gradient: 'linear-gradient(135deg, #0a1628, #1565c0)' },
+  { id: '11', added: '2026-02-01', gradient: 'linear-gradient(135deg, #1a100a, #bf6900)' },
+  { id: '12', added: '2026-02-01', gradient: 'linear-gradient(135deg, #0a1a12, #2e7d32)' },
+  { id: '13', added: '2026-02-01', gradient: 'linear-gradient(135deg, #1a0a10, #ad1457)' },
+  { id: '14', added: '2026-02-01', gradient: 'linear-gradient(135deg, #0a0d1a, #283593)' },
 ];
 
+const NEW_WINDOW_DAYS = 7;
+
+function getNewIds(items: typeof wallpapers): Set<string> {
+  const now = Date.now();
+  const dates = items.map((w) => new Date(w.added).getTime());
+  const latest = Math.max(...dates);
+
+  // If the latest addition is older than the window, nothing is new
+  if (now - latest > NEW_WINDOW_DAYS * 86400000) return new Set();
+
+  // Everything added within the window of the latest addition is "new"
+  const cutoff = latest - NEW_WINDOW_DAYS * 86400000;
+  return new Set(
+    items.filter((w) => new Date(w.added).getTime() > cutoff).map((w) => w.id)
+  );
+}
+
 export default function Home() {
+  const newIds = useMemo(() => getNewIds(wallpapers), []);
+
   const handleCardTap = useCallback(async (id: string) => {
     const isTouch = window.matchMedia('(hover: none)').matches;
     if (!isTouch) return;
@@ -83,6 +103,7 @@ export default function Home() {
               role="img"
               aria-label={`Wallpaper ${wp.id}`}
             />
+            {newIds.has(wp.id) && <span className="new-tag">new</span>}
             <div className="card-overlay">
               <div className="download-links">
                 <a
